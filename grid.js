@@ -11,4 +11,11 @@ export class Grid {
       this.cells.push(new Cell(gridElement, i % GRID_SIZE, Math.floor(i / GRID_SIZE)));
     }
   }
+
+  getRandomEmptyCell() {
+    const emptyCells = this.cells.filter((cell) => cell.isEmpty());
+    const randomIndex = Math.floor(Math.random() * emptyCells.length);
+
+    return emptyCells[randomIndex];
+  }
 }

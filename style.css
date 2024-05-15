@@ -39,9 +39,6 @@ body > * {
 }
 
 .tile {
-  --y: 0;
-  --x: 0;
-
   position: absolute;
   top: calc(var(--y) * (var(--cell-size) + var(--cell-gap)));
   left: calc(var(--x) * (var(--cell-size) + var(--cell-gap)));
@@ -55,9 +52,9 @@ body > * {
   font-family: var(--font-family);
   font-size: 7vmin;
   font-weight: 700;
-  background-color: #fff;
-  color: #000;
 
+  background-color: hsl(25, 60%, var(--bg-lightness));
+  color: hsl(20, 25%, var(--text-lightness));
   border-radius: 1vmin;
 
   transition: 100ms;
