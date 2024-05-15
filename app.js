@@ -1,3 +1,5 @@
-const test = document.querySelector('.test');
+import { Grid } from './grid.js';
 
-console.log('test');
+const gameBoard = document.querySelector('.game-board');
+
+const grid = new Grid(gameBoard);
