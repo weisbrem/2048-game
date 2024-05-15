@@ -84,4 +84,6 @@ function moveLeft() {
   slideTiles(grid.cellsGroupedByRow);
 }
 
-// function moveRight() {}
+function moveRight() {
+  slideTiles(grid.cellsGroupedByReversedRow);
+}
