@@ -80,6 +80,8 @@ function moveDown() {
   slideTiles(grid.cellsGroupedByReversedColumn);
 }
 
-// function moveLeft() {}
+function moveLeft() {
+  slideTiles(grid.cellsGroupedByRow);
+}
 
 // function moveRight() {}

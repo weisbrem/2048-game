@@ -13,6 +13,7 @@ export class Grid {
 
     this.cellsGroupedByColumn = this.groupCellsByColumn();
     this.cellsGroupedByReversedColumn = this.cellsGroupedByColumn.map((column) => [...column].reverse());
+    this.cellsGroupedByRow = this.groupCellsByRow();
   }
 
   getRandomEmptyCell() {
@@ -31,5 +32,12 @@ export class Grid {
     }, []);
   }
 
-  cellsGroupedByReversedColumn() {}
+  groupCellsByRow() {
+    return this.cells.reduce((groupedCells, cell) => {
+      groupedCells[cell.y] = groupedCells[cell.y] || [];
+      groupedCells[cell.y][cell.x] = cell;
+
+      return groupedCells;
+    }, []);
+  }
 }
