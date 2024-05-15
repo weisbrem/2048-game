@@ -76,7 +76,9 @@ function slideTilesInGroup(group) {
     cellWithTile.unlinkTile();
   }
 }
-// function moveDown() {}
+function moveDown() {
+  slideTiles(grid.cellsGroupedByReversedColumn);
+}
 
 // function moveLeft() {}
 
