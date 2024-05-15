@@ -12,7 +12,34 @@ export class Cell {
     this.linkedTile = tile;
   }
 
+  unlinkTile() {
+    this.linkedTile = null;
+  }
+
+  linkTileForMerge(tile) {
+    tile.setXY(this.x, this.y);
+    this.linkedTileForMerge = tile;
+  }
+
+  hasTileForMerge() {
+    return !!this.linkedTileForMerge;
+  }
+
+  canAccept(newTile) {
+    return this.isEmpty() || (!this.hasTileForMerge() && this.linkedTile.value === newTile.value);
+  }
+
   isEmpty() {
     return !this.linkedTile;
+  }
+
+  unlinkTileForMerge() {
+    this.linkedTileForMerge = null;
+  }
+
+  mergeTiles() {
+    this.linkedTile.setValue(this.linkedTile.value + this.linkedTileForMerge.value);
+    this.linkedTileForMerge.removeFromDOM();
+    this.unlinkTileForMerge();
   }
 }
