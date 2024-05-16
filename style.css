@@ -36,6 +36,11 @@ body > * {
   background-color: var(--cell-bg-color);
 
   border-radius: 1vmin;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 .tile {
@@ -59,6 +64,11 @@ body > * {
 
   transition: 100ms;
   animation: show 200ms;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 @keyframes show {

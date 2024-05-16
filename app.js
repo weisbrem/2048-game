@@ -8,9 +8,171 @@ grid.getRandomEmptyCell().linkTile(new Tile(gameBoard));
 grid.getRandomEmptyCell().linkTile(new Tile(gameBoard));
 
 setupInputOnce();
+setupInput();
+
+let prevX = null;
+let prevY = null;
+
+function getDirection(evt, eventType) {
+  if (eventType === 'mousemove') {
+    let currX = evt.clientX;
+    let currY = evt.clientY;
+
+    if (!prevX || !prevY) {
+      prevX = currX;
+      prevY = currY;
+      return;
+    }
+
+    let deltaX = currX - prevX;
+    let deltaY = currY - prevY;
+
+    prevX = currX;
+    prevY = currY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 0) {
+        return 'right';
+      }
+      if (deltaX < 0) {
+        return 'left';
+      }
+    } else {
+      if (deltaY > 0) {
+        return 'down';
+      }
+      if (deltaY < 0) {
+        return 'up';
+      }
+    }
+    return;
+  }
+
+  const touch = evt.touches[0];
+
+  const currTouchX = touch.clientX;
+  const currTouchY = touch.clientY;
+
+  if (!prevX || !prevY) {
+    prevX = currTouchX;
+    prevY = currTouchY;
+    return;
+  }
+
+  const deltaX = currTouchX - prevX;
+  const deltaY = currTouchY - prevY;
+
+  prevX = currTouchX;
+  prevY = currTouchY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      return 'right';
+    }
+    if (deltaX < 0) {
+      return 'left';
+    }
+  } else {
+    if (deltaY > 0) {
+      return 'down';
+    }
+    if (deltaY < 0) {
+      return 'up';
+    }
+  }
+}
 
 function setupInputOnce() {
   window.addEventListener('keydown', handleInput, { once: true });
+}
+
+function setupInput() {
+  window.addEventListener('touchstart', (evt) => {
+    prevX = evt.touches[0].clientX;
+    prevY = evt.touches[0].clientY;
+  });
+
+  window.addEventListener('touchmove', (evt) => {
+    const direction = getDirection(evt, 'touchmove');
+    console.log('direction', direction);
+    if (direction) {
+      handleMove(direction);
+    }
+  });
+  window.addEventListener('touchend', () => {
+    prevX = null;
+    prevY = null;
+  });
+  window.addEventListener('mousedown', (evt) => {
+    prevX = evt.clientX;
+    prevY = evt.clientY;
+  });
+  window.addEventListener('mousemove', (evt) => {
+    if (evt.buttons === 1) {
+      const direction = getDirection(evt, 'mousemove');
+      console.log('direction', direction);
+      if (direction) {
+        handleMove(direction);
+      }
+    }
+  });
+  window.addEventListener('mouseup', () => {
+    prevX = null;
+    prevY = null;
+  });
+}
+
+async function handleMove(direction) {
+  switch (direction) {
+    case 'left':
+      if (!canMoveLeft()) {
+        setupInput();
+        return;
+      }
+
+      await moveLeft();
+      break;
+    case 'right':
+      if (!canMoveRight()) {
+        setupInput();
+        return;
+      }
+
+      await moveRight();
+      break;
+    case 'up':
+      if (!canMoveUp()) {
+        setupInput();
+        return;
+      }
+
+      await moveUp();
+      break;
+    case 'down':
+      if (!canMoveDown()) {
+        setupInput();
+        return;
+      }
+
+      await moveDown();
+      break;
+
+    default:
+      setupInput();
+      return;
+  }
+
+  const newTile = new Tile(gameBoard);
+  grid.getRandomEmptyCell().linkTile(newTile);
+
+  if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
+    await newTile.waitForAnimationEnd();
+
+    alert('Try again!');
+    return;
+  }
+
+  setupInput();
 }
 
 async function handleInput(evt) {
